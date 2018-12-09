@@ -36,7 +36,7 @@ contract SupplyChain {
     string name;
     uint sku;
     uint price;
-    uint state;
+    State state;
     address seller;
     address buyer;
   }
@@ -64,10 +64,10 @@ contract SupplyChain {
   /* For each of the following modifiers, use what you learned about modifiers
    to give them functionality. For example, the forSale modifier should require
    that the item with the given sku has the state ForSale. */
-  modifier forSale (uint _sku) { require(Items[_sku].state == State.ForSale); _;}
-  modifier sold (uint _sku) { require(Items[_sku].state == State.Sold); _;}
-  modifier shipped (uint _sku) { require(Items[_sku].state == State.Shipped); _;}
-  modifier received (uint _sku) { require(Items[_sku].state == State.Received); _;}
+  modifier forSale (uint _sku) { require(items[_sku].state == State.ForSale); _;}
+  modifier sold (uint _sku) { require(items[_sku].state == State.Sold); _;}
+  modifier shipped (uint _sku) { require(items[_sku].state == State.Shipped); _;}
+  modifier received (uint _sku) { require(items[_sku].state == State.Received); _;}
 
 
   constructor() public {
@@ -105,7 +105,7 @@ contract SupplyChain {
     public sold(sku) verifyCaller(items[sku].seller)
   {
     items[sku].state = State.Shipped;
-    Shipped(sku);
+    emit Shipped(sku);
   }
 
   /* Add 2 modifiers to check if the item is shipped already, and that the person calling this function
@@ -114,7 +114,7 @@ contract SupplyChain {
     public shipped(sku) verifyCaller(items[sku].buyer)
   {
     items[sku].state = State.Received;
-    Received(sku);
+    emit Received(sku);
   }
 
   /* We have these functions completed so we can run tests, just ignore it :) */
