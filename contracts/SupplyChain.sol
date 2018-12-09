@@ -91,7 +91,7 @@ contract SupplyChain {
     refunded any excess ether sent. Remember to call the event associated with this function!*/
 
   function buyItem(uint sku)
-    public payable forSale(sku) paidEnough(msg.value) checkValue(sku)
+    public payable forSale(sku) paidEnough(items[sku].price) checkValue(sku)
   {
     items[sku].seller.transfer(msg.value);
     items[sku].buyer = msg.sender;
